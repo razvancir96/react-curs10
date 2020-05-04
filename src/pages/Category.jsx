@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Layout from '../components/Layout';
 import products from '../utils/products.json'
-import ProductListSidebar from '../components/ProductListSidebar';
 import ProductList from '../components/ProductList';
 
 class Category extends Component {
@@ -9,14 +8,8 @@ class Category extends Component {
         super(props);
         this.state = {
             category: {},
-            items: [],
-            filteredItems: []
+            items: []
         }
-    }
-
-    filterProducts(lowerLimit, upperLimit) {
-        const filteredItems = this.state.items.filter((product) => product.price >= lowerLimit && product.price < upperLimit);
-        this.setState({ filteredItems });
     }
 
     componentDidMount() {
@@ -25,7 +18,6 @@ class Category extends Component {
         this.setState({
             category: products[categoryName],
             items: products[categoryName].items,
-            filteredItems: products[categoryName].items
         });
     }
 
@@ -34,10 +26,7 @@ class Category extends Component {
             <Layout>
                 <div className="content-min-height container-fluid container-min-max-width">
                     <h2>{ this.state.category.name }</h2>
-                    <div className="row">
-                        <ProductListSidebar filterProducts={(low, high) => this.filterProducts(low, high)}/>
-                        <ProductList products={this.state.filteredItems} />
-                    </div>
+                    <ProductList products={this.state.items} />
                 </div>
             </Layout>
         );
