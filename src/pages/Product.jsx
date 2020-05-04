@@ -23,36 +23,33 @@ class Product extends React.Component {
         // despre categorii si sa le punem intr-un array.
         const categoryValues = Object.values(products);
         console.log(categoryValues);
-        // Fiecare categorie are "items", care reprezinta un vector de obiecte, cu informatii referitoare la produse.
-        // Noi vrem sa unim toate produse din campul "items" al fiecarei categorii, rezultand intr-un final un vector
-        // cu toate produsele. De ce? Pentru ca vom face un find pe intrg vectorul si vom gasi produsul cu id-ul dorit.
-        // ATENTIE! Nu este singura metoda! Daca vreti sa faceti alcumva, e perfect ok.
-        // Asadar: avem un vector de obiecte, iar fiecare obiect contine la randul lui un vector de obiecte. Dupa
-        // ce parcurgem aceasta structura, trebuie sa ne rezulte un singur vector de obiecte, deci practic REDUCEM
-        // structura. V-ati prins?
-        const productItems = categoryValues.reduce((acc, category) => {
-            // Pentru fiecare categorie, luam continutul cheii "items" si il adaugam la vectorul rezultat(acumulatorul).
-            return [
-                ...acc,
-                ...category.items
-            ]
-        // FOARTE IMPORTANT! Acumulatorul este initial un array gol!
-        }, [])
-        console.log(productItems);
-        // Acum ca avem toate produsele intr-un array, tot ce mai avem de facut e un find. DAR ATENTIE!
-        const currentProduct = productItems.find(product => {
-            // Cu typeof puteti verifica tipul si SURPRIZA: unul e string, altul e number... => CONVERTIM
-            // NU PUNETI ==, CONVERTITI!!!
-            console.log(typeof productId, typeof product.id);
-            return Number(productId) === product.id;
+
+        // Ne cream o variabila in care vom stoca datele despre produsul curent
+        let currentProduct;
+
+        // Trebuie sa parcurgem fiecare categorie
+        categoryValues.forEach((category) => {
+            // Si sa cautam in itemii categoriei produsul cu id-ul similar celui din ruta
+            // Cum functioneaza find:
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+            const findResult = category.items.find((product) => {
+                // Cu typeof puteti verifica tipul si SURPRIZA: unul e string, altul e number... => CONVERTIM
+                // NU PUNETI ==, CONVERTITI!
+                console.log(typeof productId, typeof product.id);
+                return product.id === Number(productId);
+            });
+            // Daca am gasit produsul, il salvam in variabila currentProduct
+            if (findResult) {
+                currentProduct = findResult;
+            }
         });
-        console.log(currentProduct);
-        // Punem datele produsului curent in state.
+
+        // La final, actualizam state-ul
         this.setState({product: currentProduct});
     }
 
     render() {
-        const { product} = this.state;
+        const { product } = this.state;
 
         return (
             <Layout>
