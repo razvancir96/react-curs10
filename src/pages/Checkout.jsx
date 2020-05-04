@@ -6,7 +6,7 @@ import {
 import Layout from '../components/Layout';
 import CheckoutForm from '../components/CheckoutForm';
 
-const Checkout = () => {
+function Checkout() {
     return (
         <StripeProvider apiKey="pk_test_qxuOUztDbFFABADsiHV1oXbi00vzVumGBX">
             <Layout>

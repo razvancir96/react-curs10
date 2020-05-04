@@ -7,7 +7,7 @@ import { ReactComponent as LinkedIn } from '../assets/icons/linkedin.svg';
 // Importam CSS.
 import './Footer.css';
 
-const Footer = () => {
+function Footer() {
     return(
         // Am mai adaugat clase pentru stilizares pe mobile!
         <footer className="pt-3 mt-3 bg-light">
